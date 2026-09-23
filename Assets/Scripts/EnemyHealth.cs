@@ -7,7 +7,13 @@ public class EnemyHealth : MonoBehaviour
     private float currentHealth;
 
     [Header("Death Effect (Optional)")]
-    public GameObject deathEffect; 
+    public GameObject deathEffect;
+
+    [Header("Drop Settings")]
+    public GameObject primaryAmmoBoxPrefab;   
+    public GameObject secondaryAmmoBoxPrefab; 
+    [Range(0, 100)]
+    public float dropChance = 70f;
 
     void Start()
     {
@@ -17,8 +23,6 @@ public class EnemyHealth : MonoBehaviour
     public void TakeDamage(float damageAmount)
     {
         currentHealth -= damageAmount;
-        Debug.Log(gameObject.name + " โดนโจมตี! เลือดเหลือ: " + currentHealth);
-
         StartCoroutine(FlashRed());
 
         if (currentHealth <= 0)
@@ -29,7 +33,16 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
-        Debug.Log(gameObject.name + " ตายแล้ว!");
+        if (Random.Range(0f, 100f) <= dropChance)
+        {
+            Vector3 spawnPos = transform.position + Vector3.up * 0.3f;
+            GameObject dropPrefab = (Random.value > 0.5f) ? primaryAmmoBoxPrefab : secondaryAmmoBoxPrefab;
+
+            if (dropPrefab != null)
+            {
+                Instantiate(dropPrefab, spawnPos, Quaternion.identity);
+            }
+        }
 
         if (deathEffect != null)
         {

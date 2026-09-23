@@ -5,15 +5,16 @@ using TMPro;
 public class Gun
 {
     public string gunName;
-    public GameObject gunObject;      // ตัวโมเดลปืน
-    public Transform firePoint;       // ปากกระบอกปืนของปืนนี้โดยเฉพาะ
-    public int maxClip;
-    public int currentClip;
-    public int reserveAmmo;
-    public float fireRate;
-    public bool isAutomatic;
-    public float bulletForce;
-    public GameObject bulletPrefab;
+    public GameObject gunObject;     
+    public Transform firePoint;       
+    public int maxClip;               
+    public int currentClip;           
+    public int reserveAmmo;          
+    public int maxReserveAmmo;        
+    public float fireRate;            
+    public bool isAutomatic;         
+    public float bulletForce;       
+    public GameObject bulletPrefab;   
 }
 
 [RequireComponent(typeof(CharacterController))]
@@ -30,12 +31,12 @@ public class FPSController : MonoBehaviour
     public float maxLookAngle = 80f;
 
     [Header("Weapons & Ammo")]
-    public Gun[] guns = new Gun[2]; // Slot 0: ปืนหลัก, Slot 1: ปืนรอง
+    public Gun[] guns = new Gun[2]; 
     public int currentGunIndex = 0;
     private float nextTimeToFire = 0f;
     private bool isReloading = false;
 
-    [Header("UI (Optional)")]
+    [Header("UI")]
     public TextMeshProUGUI ammoText;
 
     private CharacterController controller;
@@ -53,8 +54,42 @@ public class FPSController : MonoBehaviour
             playerCamera = Camera.main.transform;
         }
 
+        SetupDefaultGuns();
         UpdateWeaponVisibility();
         UpdateAmmoUI();
+    }
+
+    void SetupDefaultGuns()
+    {
+        if (guns[0] == null || string.IsNullOrEmpty(guns[0].gunName))
+        {
+            guns[0] = new Gun
+            {
+                gunName = "Primary Rifle",
+                maxClip = 30,
+                currentClip = 30,
+                reserveAmmo = 60,
+                maxReserveAmmo = 60,
+                fireRate = 0.12f,
+                isAutomatic = true,
+                bulletForce = 35f
+            };
+        }
+
+        if (guns[1] == null || string.IsNullOrEmpty(guns[1].gunName))
+        {
+            guns[1] = new Gun
+            {
+                gunName = "Secondary Pistol",
+                maxClip = 12,
+                currentClip = 12,
+                reserveAmmo = 36,
+                maxReserveAmmo = 36,
+                fireRate = 0.25f,
+                isAutomatic = false,
+                bulletForce = 30f
+            };
+        }
     }
 
     void Update()
@@ -130,12 +165,10 @@ public class FPSController : MonoBehaviour
 
         if (gun.bulletPrefab != null && gun.firePoint != null)
         {
-            // คำนวณหาจุดกึ่งกลางจอที่กล้องกำลังเล็งไป
             Ray ray = new Ray(playerCamera.position, playerCamera.forward);
             RaycastHit hit;
             Vector3 targetPoint;
 
-            // ถ้ายิงโดนสิ่งของในระยะ 100 เมตร ให้เล็งไปที่จุดนั้น ถ้าไม่โดนอะไรเลยให้พุ่งไปข้างหน้า 100 เมตร
             if (Physics.Raycast(ray, out hit, 100f))
             {
                 targetPoint = hit.point;
@@ -145,15 +178,13 @@ public class FPSController : MonoBehaviour
                 targetPoint = ray.GetPoint(100f);
             }
 
-            // คำนวณทิศทางจากปากกระบอกปืนไปยังจุดเล็งกลางจอ
             Vector3 shootDirection = (targetPoint - gun.firePoint.position).normalized;
 
-            // เสกกระสุนออกจากปลายปากกระบอกปืน
             GameObject bullet = Instantiate(gun.bulletPrefab, gun.firePoint.position, Quaternion.LookRotation(shootDirection));
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.AddForce(shootDirection * gun.bulletForce, ForceMode.Impulse);
+                rb.linearVelocity = shootDirection * gun.bulletForce;
             }
         }
     }
@@ -186,6 +217,23 @@ public class FPSController : MonoBehaviour
 
         isReloading = false;
         UpdateAmmoUI();
+    }
+
+    public bool RefillReserveAmmo(int gunIndex)
+    {
+        if (gunIndex < 0 || gunIndex >= guns.Length) return false;
+
+        Gun targetGun = guns[gunIndex];
+        if (targetGun == null) return false;
+
+        if (targetGun.reserveAmmo >= targetGun.maxReserveAmmo)
+        {
+            return false;
+        }
+
+        targetGun.reserveAmmo = targetGun.maxReserveAmmo;
+        UpdateAmmoUI();
+        return true;
     }
 
     void UpdateAmmoUI()

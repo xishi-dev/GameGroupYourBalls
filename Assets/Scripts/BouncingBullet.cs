@@ -17,10 +17,8 @@ public class BouncingBullet : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         EnemyHealth enemy = collision.gameObject.GetComponentInParent<EnemyHealth>();
-
         if (enemy != null)
         {
-            Debug.Log("กระสุนโดนศัตรู: " + collision.gameObject.name);
             enemy.TakeDamage(damage);
             Destroy(gameObject);
             return;

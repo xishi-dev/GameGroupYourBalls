@@ -8,18 +8,18 @@ public class EnemyAI : MonoBehaviour
     private Transform player;
 
     [Header("Detection Settings")]
-    public float sightRange = 12f;          
-    public float fieldOfView = 90f;        
-    public LayerMask obstacleMask;         
+    public float sightRange = 12f;
+    public float fieldOfView = 90f;
+    public LayerMask obstacleMask;
 
     [Header("Patrol Settings")]
-    public float walkRadius = 8f;          
-    public float patrolWaitTime = 2f;      
+    public float walkRadius = 8f;
+    public float patrolWaitTime = 2f;
     private float waitTimer = 0f;
 
     [Header("Movement Speeds")]
-    public float patrolSpeed = 2f;         
-    public float chaseSpeed = 4.5f;       
+    public float patrolSpeed = 2f;
+    public float chaseSpeed = 4.5f;
 
     private bool playerInSight = false;
 
@@ -106,11 +106,5 @@ public class EnemyAI : MonoBehaviour
         {
             agent.SetDestination(hit.position);
         }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, sightRange);
     }
 }
