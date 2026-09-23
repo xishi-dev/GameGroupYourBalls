@@ -3,9 +3,9 @@ using UnityEngine;
 public class BouncingBullet : MonoBehaviour
 {
     [Header("Bullet Settings")]
-    public float lifeTime = 5f;        
-    public int maxBounces = 3;         
-    public float damage = 25f;        
+    public float lifeTime = 5f;
+    public int maxBounces = 4;
+    public float damage = 25f;
 
     private int bounceCount = 0;
 
@@ -16,9 +16,11 @@ public class BouncingBullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        EnemyHealth enemy = collision.gameObject.GetComponent<EnemyHealth>();
+        EnemyHealth enemy = collision.gameObject.GetComponentInParent<EnemyHealth>();
+
         if (enemy != null)
         {
+            Debug.Log("กระสุนโดนศัตรู: " + collision.gameObject.name);
             enemy.TakeDamage(damage);
             Destroy(gameObject);
             return;
