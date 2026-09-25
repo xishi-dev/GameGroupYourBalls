@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Editor\\Editor\\BounceArenaGeneratorV2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Editor\\Editor\\BounceArenaGeneratorV2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Editor\\Editor\\NewMonoBehaviourScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Editor\\Editor\\NewMonoBehaviourScript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Editor\\Editor\\MapGenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Editor\\Editor\\MapGenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Scripts\\Editor\\MapGenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\Editor\\MapGenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Scripts\\Editor\\LevelGeneratorEditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\Editor\\LevelGeneratorEditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -26,11 +42,59 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BounceArenaGeneratorV2.cs",
+              "DocumentMoniker": "C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Editor\\Editor\\BounceArenaGeneratorV2.cs",
+              "RelativeDocumentMoniker": "Assets\\Editor\\Editor\\BounceArenaGeneratorV2.cs",
+              "ToolTip": "C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Editor\\Editor\\BounceArenaGeneratorV2.cs",
+              "RelativeToolTip": "Assets\\Editor\\Editor\\BounceArenaGeneratorV2.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-25T12:10:12.994Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "NewMonoBehaviourScript.cs",
+              "DocumentMoniker": "C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Editor\\Editor\\NewMonoBehaviourScript.cs",
+              "RelativeDocumentMoniker": "Assets\\Editor\\Editor\\NewMonoBehaviourScript.cs",
+              "ToolTip": "C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Editor\\Editor\\NewMonoBehaviourScript.cs",
+              "RelativeToolTip": "Assets\\Editor\\Editor\\NewMonoBehaviourScript.cs",
+              "ViewState": "AgIAAOUCAAAAAAAAAADwvxEDAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-25T12:09:35.077Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MapGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Editor\\Editor\\MapGenerator.cs",
+              "RelativeDocumentMoniker": "Assets\\Editor\\Editor\\MapGenerator.cs",
+              "ToolTip": "C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Editor\\Editor\\MapGenerator.cs",
+              "RelativeToolTip": "Assets\\Editor\\Editor\\MapGenerator.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-25T11:59:17.763Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MapGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Scripts\\Editor\\MapGenerator.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Editor\\MapGenerator.cs",
+              "ToolTip": "C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Scripts\\Editor\\MapGenerator.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Editor\\MapGenerator.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-25T11:51:12.815Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "LevelGeneratorEditor1.cs",
               "DocumentMoniker": "C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Scripts\\Editor\\LevelGeneratorEditor1.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Editor\\LevelGeneratorEditor1.cs",
@@ -38,12 +102,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Editor\\LevelGeneratorEditor1.cs",
               "ViewState": "AgIAAB0AAAAAAAAAAADwv0kAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-19T16:58:04.636Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-19T16:58:04.636Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "StageConfigFactory.cs",
               "DocumentMoniker": "C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Scripts\\Editor\\StageConfigFactory.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Editor\\StageConfigFactory.cs",
@@ -51,25 +114,22 @@
               "RelativeToolTip": "Assets\\Scripts\\Editor\\StageConfigFactory.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-19T16:57:43.265Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-19T16:57:43.265Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "LevelGeneratorEditor.cs",
               "DocumentMoniker": "C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Scripts\\Editor\\LevelGeneratorEditor.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Editor\\LevelGeneratorEditor.cs",
               "ToolTip": "C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Scripts\\Editor\\LevelGeneratorEditor.cs",
               "RelativeToolTip": "Assets\\Scripts\\Editor\\LevelGeneratorEditor.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAADwv0EAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-19T16:57:06.969Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-19T16:57:06.969Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "GameCameraRig.cs",
               "DocumentMoniker": "C:\\Users\\nxbri\\Downloads\\GameGroupPro2\\Assets\\Scripts\\Camera\\GameCameraRig.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Camera\\GameCameraRig.cs",
@@ -77,8 +137,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Camera\\GameCameraRig.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-19T16:56:44.216Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-19T16:56:44.216Z"
             }
           ]
         }
