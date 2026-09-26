@@ -5,33 +5,27 @@ using TMPro;
 public class Gun
 {
     public string gunName;
-    public GameObject gunObject;     
-    public Transform firePoint;       
-    public int maxClip;               
-    public int currentClip;           
-    public int reserveAmmo;          
-    public int maxReserveAmmo;        
-    public float fireRate;            
-    public bool isAutomatic;         
-    public float bulletForce;       
-    public GameObject bulletPrefab;   
+    public GameObject gunObject;
+    public Transform firePoint;
+    public int maxClip = 30;
+    public int currentClip = 30;
+    public int reserveAmmo = 60;
+    public int maxReserveAmmo = 60;
+    public float fireRate = 0.15f;    // มีค่าเริ่มต้นแน่นอน ไม่เป็น 0
+    public bool isAutomatic = true;
+    public float bulletForce = 35f;
+    public GameObject bulletPrefab;
 }
 
 [RequireComponent(typeof(CharacterController))]
 public class FPSController : MonoBehaviour
 {
     [Header("Movement")]
-    public float walkSpeed = 6f;
+    public float moveSpeed = 7f;
     public float gravity = -9.81f;
-    public float jumpHeight = 1.5f;
-
-    [Header("Look Settings")]
-    public Transform playerCamera;
-    public float mouseSensitivity = 2f;
-    public float maxLookAngle = 80f;
 
     [Header("Weapons & Ammo")]
-    public Gun[] guns = new Gun[2]; 
+    public Gun[] guns = new Gun[2];
     public int currentGunIndex = 0;
     private float nextTimeToFire = 0f;
     private bool isReloading = false;
@@ -41,18 +35,20 @@ public class FPSController : MonoBehaviour
 
     private CharacterController controller;
     private Vector3 velocity;
-    private float verticalRotation = 0f;
-    private bool isCursorLocked = true;
+    public Camera mainCam; // ให้ใส่กล้องใน Inspector ได้โดยตรงเพื่อความแม่นยำ
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        LockCursor(true);
 
-        if (playerCamera == null && Camera.main != null)
+        // ดึงกล้องหลัก ถ้ายังไม่ได้ลากใส่
+        if (mainCam == null)
         {
-            playerCamera = Camera.main.transform;
+            mainCam = Camera.main;
         }
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
         SetupDefaultGuns();
         UpdateWeaponVisibility();
@@ -61,50 +57,54 @@ public class FPSController : MonoBehaviour
 
     void SetupDefaultGuns()
     {
-        if (guns[0] == null || string.IsNullOrEmpty(guns[0].gunName))
-        {
-            guns[0] = new Gun
-            {
-                gunName = "Primary Rifle",
-                maxClip = 30,
-                currentClip = 30,
-                reserveAmmo = 60,
-                maxReserveAmmo = 60,
-                fireRate = 0.12f,
-                isAutomatic = true,
-                bulletForce = 35f
-            };
-        }
-
-        if (guns[1] == null || string.IsNullOrEmpty(guns[1].gunName))
-        {
-            guns[1] = new Gun
-            {
-                gunName = "Secondary Pistol",
-                maxClip = 12,
-                currentClip = 12,
-                reserveAmmo = 36,
-                maxReserveAmmo = 36,
-                fireRate = 0.25f,
-                isAutomatic = false,
-                bulletForce = 30f
-            };
-        }
+        // ป้องกันค่า fireRate กลายเป็น 0
+        if (guns[0] != null && guns[0].fireRate <= 0.01f) guns[0].fireRate = 0.15f;
+        if (guns[1] != null && guns[1].fireRate <= 0.01f) guns[1].fireRate = 0.3f;
     }
 
     void Update()
     {
-        HandleCursorLock();
-
-        if (isCursorLocked)
-        {
-            HandleMouseLook();
-            HandleWeaponSwitch();
-            HandleShootingInput();
-            HandleReloadInput();
-        }
-
         HandleMovement();
+        HandleRotationTowardsMouse();
+        HandleWeaponSwitch();
+        HandleShootingInput();
+        HandleReloadInput();
+    }
+
+    void HandleMovement()
+    {
+        if (controller.isGrounded && velocity.y < 0) velocity.y = -2f;
+
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveZ = Input.GetAxisRaw("Vertical");
+
+        Vector3 move = new Vector3(moveX, 0f, moveZ).normalized;
+        controller.Move(move * moveSpeed * Time.deltaTime);
+
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
+    }
+
+    void HandleRotationTowardsMouse()
+    {
+        if (mainCam == null) mainCam = Camera.main;
+        if (mainCam == null) return;
+
+        Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+
+        Plane groundPlane = new Plane(Vector3.up, new Vector3(0f, transform.position.y, 0f));
+
+        if (groundPlane.Raycast(ray, out float enter))
+        {
+            Vector3 hitPoint = ray.GetPoint(enter);
+            Vector3 lookDirection = hitPoint - transform.position;
+            lookDirection.y = 0f; 
+
+            if (lookDirection.sqrMagnitude > 0.05f)
+            {
+                transform.rotation = Quaternion.LookRotation(lookDirection);
+            }
+        }
     }
 
     void HandleWeaponSwitch()
@@ -148,7 +148,9 @@ public class FPSController : MonoBehaviour
         {
             if (currentGun.currentClip > 0)
             {
-                nextTimeToFire = Time.time + currentGun.fireRate;
+                // ถ้าค่า fireRate น้อยเกินไป ป้องกันไม่ให้บั๊ก
+                float rate = (currentGun.fireRate <= 0.01f) ? 0.15f : currentGun.fireRate;
+                nextTimeToFire = Time.time + rate;
                 Shoot(currentGun);
             }
             else
@@ -165,20 +167,7 @@ public class FPSController : MonoBehaviour
 
         if (gun.bulletPrefab != null && gun.firePoint != null)
         {
-            Ray ray = new Ray(playerCamera.position, playerCamera.forward);
-            RaycastHit hit;
-            Vector3 targetPoint;
-
-            if (Physics.Raycast(ray, out hit, 100f))
-            {
-                targetPoint = hit.point;
-            }
-            else
-            {
-                targetPoint = ray.GetPoint(100f);
-            }
-
-            Vector3 shootDirection = (targetPoint - gun.firePoint.position).normalized;
+            Vector3 shootDirection = transform.forward;
 
             GameObject bullet = Instantiate(gun.bulletPrefab, gun.firePoint.position, Quaternion.LookRotation(shootDirection));
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
@@ -243,51 +232,5 @@ public class FPSController : MonoBehaviour
             Gun gun = guns[currentGunIndex];
             ammoText.text = $"[{gun.gunName}]\n{gun.currentClip} / {gun.reserveAmmo}";
         }
-    }
-
-    void HandleCursorLock()
-    {
-        if (Input.GetMouseButtonDown(0) && !isCursorLocked) LockCursor(true);
-        if (Input.GetKeyDown(KeyCode.Escape)) LockCursor(false);
-    }
-
-    void LockCursor(bool lockState)
-    {
-        isCursorLocked = lockState;
-        Cursor.lockState = lockState ? CursorLockMode.Locked : CursorLockMode.None;
-        Cursor.visible = !lockState;
-    }
-
-    void HandleMouseLook()
-    {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
-
-        transform.Rotate(Vector3.up * mouseX);
-        verticalRotation -= mouseY;
-        verticalRotation = Mathf.Clamp(verticalRotation, -maxLookAngle, maxLookAngle);
-        if (playerCamera != null)
-        {
-            playerCamera.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
-        }
-    }
-
-    void HandleMovement()
-    {
-        if (controller.isGrounded && velocity.y < 0) velocity.y = -2f;
-
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveZ = Input.GetAxisRaw("Vertical");
-
-        Vector3 move = (transform.right * moveX + transform.forward * moveZ).normalized;
-        controller.Move(move * walkSpeed * Time.deltaTime);
-
-        if (Input.GetButtonDown("Jump") && controller.isGrounded)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
-
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
     }
 }

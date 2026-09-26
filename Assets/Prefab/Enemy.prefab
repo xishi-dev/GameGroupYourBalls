@@ -129,6 +129,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 100
   deathEffect: {fileID: 0}
+  primaryAmmoBoxPrefab: {fileID: 5246906685002267794, guid: 39689060c52c4b4489afef7f0d780ce6, type: 3}
+  secondaryAmmoBoxPrefab: {fileID: 5720702945035045830, guid: c89b0d6271b9c96419fb044967bec438, type: 3}
+  dropChance: 70
 --- !u!195 &448398518951079024
 NavMeshAgent:
   m_ObjectHideFlags: 0
