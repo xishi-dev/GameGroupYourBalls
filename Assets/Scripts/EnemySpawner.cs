@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 
-public class WaveSpawner : MonoBehaviour
+public class EnemySpawner : MonoBehaviour
 {
     [Header("Enemy")]
     public GameObject enemyPrefab;
@@ -11,55 +11,55 @@ public class WaveSpawner : MonoBehaviour
     public Transform[] spawnPoints;
 
     [Header("Wave Settings")]
-    public int startingEnemyCount = 5;
+    public int enemyCount = 5;
     public int enemyIncreasePerWave = 2;
-    public float spawnDelay = 0.5f;
+    public float spawnDelay = 2f;
     public float timeBetweenWaves = 3f;
+
+    [Header("Wave")]
+    public int currentWave = 0;
 
     [Header("Wave UI")]
     public TextMeshProUGUI waveText;
 
-    [Header("Current Wave")]
-    public int currentWave = 0;
-
-    private int aliveEnemies = 0;
+    private int aliveEnemy = 0;
     private bool spawning = false;
 
     void Start()
     {
-        // ซ่อนข้อความก่อนเริ่ม
+        // ซ่อนข้อความตอนเริ่ม
         if (waveText != null)
         {
             waveText.text = "";
         }
 
-        StartCoroutine(StartNextWave());
+        StartCoroutine(StartWave());
     }
 
-    IEnumerator StartNextWave()
+    IEnumerator StartWave()
     {
-        // รอก่อนเริ่ม Wave ใหม่
+        // รอก่อนเริ่ม Wave
         yield return new WaitForSeconds(timeBetweenWaves);
 
         currentWave++;
 
-        // แสดง Wave บน Canvas
+        // แสดงเลข Wave บน Canvas
         if (waveText != null)
         {
             waveText.text = "WAVE " + currentWave;
         }
 
-        // คำนวณจำนวน Enemy
-        int enemyCount = startingEnemyCount +
+        // เพิ่มจำนวนมอนตาม Wave
+        int totalEnemy = enemyCount +
                          ((currentWave - 1) * enemyIncreasePerWave);
 
-        Debug.Log("========== WAVE " + currentWave + " ==========");
-        Debug.Log("Enemy จำนวน: " + enemyCount);
+        Debug.Log("===== WAVE " + currentWave + " =====");
+        Debug.Log("Enemy: " + totalEnemy);
 
         spawning = true;
 
-        // Spawn Enemy ทีละตัว
-        for (int i = 0; i < enemyCount; i++)
+        // Spawn มอนทีละตัว
+        for (int i = 0; i < totalEnemy; i++)
         {
             SpawnEnemy();
 
@@ -68,6 +68,7 @@ public class WaveSpawner : MonoBehaviour
 
         spawning = false;
 
+        // ตรวจสอบว่า Wave จบหรือยัง
         CheckWaveComplete();
     }
 
@@ -75,17 +76,17 @@ public class WaveSpawner : MonoBehaviour
     {
         if (enemyPrefab == null)
         {
-            Debug.LogError("ยังไม่ได้ใส่ Enemy Prefab!");
+            Debug.LogWarning("ยังไม่ได้ใส่ Enemy Prefab!");
             return;
         }
 
         if (spawnPoints == null || spawnPoints.Length == 0)
         {
-            Debug.LogError("ยังไม่ได้ใส่ Spawn Point!");
+            Debug.LogWarning("ไม่มี Spawn Point!");
             return;
         }
 
-        // สุ่ม Spawn Point
+        // สุ่มจุดเกิด
         int randomIndex = Random.Range(0, spawnPoints.Length);
 
         Transform spawnPoint = spawnPoints[randomIndex];
@@ -97,7 +98,7 @@ public class WaveSpawner : MonoBehaviour
             spawnPoint.rotation
         );
 
-        aliveEnemies++;
+        aliveEnemy++;
 
         // เพิ่มตัวตรวจจับการตายให้ Enemy
         EnemyDeathTracker tracker = enemy.AddComponent<EnemyDeathTracker>();
@@ -107,43 +108,44 @@ public class WaveSpawner : MonoBehaviour
 
     public void EnemyDied()
     {
-        aliveEnemies--;
+        aliveEnemy--;
 
-        if (aliveEnemies < 0)
+        if (aliveEnemy < 0)
         {
-            aliveEnemies = 0;
+            aliveEnemy = 0;
         }
 
-        Debug.Log("Enemy เหลือ: " + aliveEnemies);
+        Debug.Log("Enemy เหลือ: " + aliveEnemy);
 
         CheckWaveComplete();
     }
 
     void CheckWaveComplete()
     {
-        // ถ้ายัง Spawn ไม่ครบ
+        // ถ้ายัง Spawn ไม่ครบ ห้ามเริ่ม Wave ใหม่
         if (spawning)
         {
             return;
         }
 
         // ถ้า Enemy ตายหมด
-        if (aliveEnemies <= 0)
+        if (aliveEnemy <= 0)
         {
             Debug.Log("Wave " + currentWave + " Complete!");
 
-            StartCoroutine(StartNextWave());
+            StartCoroutine(StartWave());
         }
     }
 
-    // =====================================================
-    // Script ตรวจจับ Enemy ตาย
-    // อยู่ในไฟล์เดียวกัน ไม่ต้องสร้าง Script ใหม่
-    // =====================================================
+
+    // =========================================================
+    // ตัวตรวจจับ Enemy ตาย
+    // ไม่ต้องสร้าง Script แยก
+    // =========================================================
 
     public class EnemyDeathTracker : MonoBehaviour
     {
-        public WaveSpawner spawner;
+        public EnemySpawner spawner;
 
         private bool counted = false;
 
