@@ -11,7 +11,7 @@ public class Gun
     public int currentClip = 30;
     public int reserveAmmo = 60;
     public int maxReserveAmmo = 60;
-    public float fireRate = 0.15f;    // มีค่าเริ่มต้นแน่นอน ไม่เป็น 0
+    public float fireRate = 0.15f;
     public bool isAutomatic = true;
     public float bulletForce = 35f;
     public GameObject bulletPrefab;
@@ -24,6 +24,9 @@ public class FPSController : MonoBehaviour
     public float moveSpeed = 7f;
     public float gravity = -9.81f;
 
+    [Header("Animation")]
+    public Animator animator;
+
     [Header("Weapons & Ammo")]
     public Gun[] guns = new Gun[2];
     public int currentGunIndex = 0;
@@ -35,13 +38,19 @@ public class FPSController : MonoBehaviour
 
     private CharacterController controller;
     private Vector3 velocity;
-    public Camera mainCam; // ให้ใส่กล้องใน Inspector ได้โดยตรงเพื่อความแม่นยำ
+    public Camera mainCam;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
 
-        // ดึงกล้องหลัก ถ้ายังไม่ได้ลากใส่
+        // หา Animator ถ้ายังไม่ได้ลากใส่ Inspector
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
+        // ดึงกล้องหลัก
         if (mainCam == null)
         {
             mainCam = Camera.main;
@@ -57,9 +66,11 @@ public class FPSController : MonoBehaviour
 
     void SetupDefaultGuns()
     {
-        // ป้องกันค่า fireRate กลายเป็น 0
-        if (guns[0] != null && guns[0].fireRate <= 0.01f) guns[0].fireRate = 0.15f;
-        if (guns[1] != null && guns[1].fireRate <= 0.01f) guns[1].fireRate = 0.3f;
+        if (guns[0] != null && guns[0].fireRate <= 0.01f)
+            guns[0].fireRate = 0.15f;
+
+        if (guns[1] != null && guns[1].fireRate <= 0.01f)
+            guns[1].fireRate = 0.3f;
     }
 
     void Update()
@@ -73,13 +84,31 @@ public class FPSController : MonoBehaviour
 
     void HandleMovement()
     {
-        if (controller.isGrounded && velocity.y < 0) velocity.y = -2f;
+        if (controller.isGrounded && velocity.y < 0)
+            velocity.y = -2f;
 
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveZ = Input.GetAxisRaw("Vertical");
 
         Vector3 move = new Vector3(moveX, 0f, moveZ).normalized;
+
+        // เดิน
         controller.Move(move * moveSpeed * Time.deltaTime);
+
+        // =========================
+        // Animation
+        // =========================
+
+        bool isMoving = move.magnitude > 0.01f;
+        bool isRunning = isMoving && Input.GetKey(KeyCode.LeftShift);
+
+        if (animator != null)
+        {
+            animator.SetBool("IsMoving", isMoving);
+            animator.SetBool("IsRunning", isRunning);
+        }
+
+        // =========================
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
@@ -87,22 +116,30 @@ public class FPSController : MonoBehaviour
 
     void HandleRotationTowardsMouse()
     {
-        if (mainCam == null) mainCam = Camera.main;
-        if (mainCam == null) return;
+        if (mainCam == null)
+            mainCam = Camera.main;
+
+        if (mainCam == null)
+            return;
 
         Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
 
-        Plane groundPlane = new Plane(Vector3.up, new Vector3(0f, transform.position.y, 0f));
+        Plane groundPlane = new Plane(
+            Vector3.up,
+            new Vector3(0f, transform.position.y, 0f)
+        );
 
         if (groundPlane.Raycast(ray, out float enter))
         {
             Vector3 hitPoint = ray.GetPoint(enter);
+
             Vector3 lookDirection = hitPoint - transform.position;
-            lookDirection.y = 0f; 
+            lookDirection.y = 0f;
 
             if (lookDirection.sqrMagnitude > 0.05f)
             {
-                transform.rotation = Quaternion.LookRotation(lookDirection);
+                transform.rotation =
+                    Quaternion.LookRotation(lookDirection);
             }
         }
     }
@@ -111,12 +148,24 @@ public class FPSController : MonoBehaviour
     {
         int previousGun = currentGunIndex;
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) currentGunIndex = 0;
-        if (Input.GetKeyDown(KeyCode.Alpha2)) currentGunIndex = 1;
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            currentGunIndex = 0;
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+            currentGunIndex = 1;
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll > 0f) currentGunIndex = (currentGunIndex + 1) % guns.Length;
-        else if (scroll < 0f) currentGunIndex = (currentGunIndex - 1 + guns.Length) % guns.Length;
+
+        if (scroll > 0f)
+        {
+            currentGunIndex =
+                (currentGunIndex + 1) % guns.Length;
+        }
+        else if (scroll < 0f)
+        {
+            currentGunIndex =
+                (currentGunIndex - 1 + guns.Length) % guns.Length;
+        }
 
         if (previousGun != currentGunIndex)
         {
@@ -132,25 +181,36 @@ public class FPSController : MonoBehaviour
         {
             if (guns[i].gunObject != null)
             {
-                guns[i].gunObject.SetActive(i == currentGunIndex);
+                guns[i].gunObject.SetActive(
+                    i == currentGunIndex
+                );
             }
         }
     }
 
     void HandleShootingInput()
     {
-        if (isReloading) return;
+        if (isReloading)
+            return;
 
         Gun currentGun = guns[currentGunIndex];
-        bool shootTriggered = currentGun.isAutomatic ? Input.GetButton("Fire1") : Input.GetButtonDown("Fire1");
+
+        bool shootTriggered =
+            currentGun.isAutomatic
+            ? Input.GetButton("Fire1")
+            : Input.GetButtonDown("Fire1");
 
         if (shootTriggered && Time.time >= nextTimeToFire)
         {
             if (currentGun.currentClip > 0)
             {
-                // ถ้าค่า fireRate น้อยเกินไป ป้องกันไม่ให้บั๊ก
-                float rate = (currentGun.fireRate <= 0.01f) ? 0.15f : currentGun.fireRate;
+                float rate =
+                    (currentGun.fireRate <= 0.01f)
+                    ? 0.15f
+                    : currentGun.fireRate;
+
                 nextTimeToFire = Time.time + rate;
+
                 Shoot(currentGun);
             }
             else
@@ -163,17 +223,26 @@ public class FPSController : MonoBehaviour
     void Shoot(Gun gun)
     {
         gun.currentClip--;
+
         UpdateAmmoUI();
 
-        if (gun.bulletPrefab != null && gun.firePoint != null)
+        if (gun.bulletPrefab != null &&
+            gun.firePoint != null)
         {
             Vector3 shootDirection = transform.forward;
 
-            GameObject bullet = Instantiate(gun.bulletPrefab, gun.firePoint.position, Quaternion.LookRotation(shootDirection));
+            GameObject bullet = Instantiate(
+                gun.bulletPrefab,
+                gun.firePoint.position,
+                Quaternion.LookRotation(shootDirection)
+            );
+
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
+
             if (rb != null)
             {
-                rb.linearVelocity = shootDirection * gun.bulletForce;
+                rb.linearVelocity =
+                    shootDirection * gun.bulletForce;
             }
         }
     }
@@ -189,39 +258,54 @@ public class FPSController : MonoBehaviour
     void Reload()
     {
         Gun gun = guns[currentGunIndex];
-        if (gun.currentClip == gun.maxClip || gun.reserveAmmo <= 0) return;
+
+        if (gun.currentClip == gun.maxClip ||
+            gun.reserveAmmo <= 0)
+            return;
 
         isReloading = true;
+
         Invoke(nameof(FinishReload), 1.2f);
     }
 
     void FinishReload()
     {
         Gun gun = guns[currentGunIndex];
-        int neededAmmo = gun.maxClip - gun.currentClip;
-        int ammoToLoad = Mathf.Min(neededAmmo, gun.reserveAmmo);
+
+        int neededAmmo =
+            gun.maxClip - gun.currentClip;
+
+        int ammoToLoad =
+            Mathf.Min(neededAmmo, gun.reserveAmmo);
 
         gun.currentClip += ammoToLoad;
         gun.reserveAmmo -= ammoToLoad;
 
         isReloading = false;
+
         UpdateAmmoUI();
     }
 
     public bool RefillReserveAmmo(int gunIndex)
     {
-        if (gunIndex < 0 || gunIndex >= guns.Length) return false;
+        if (gunIndex < 0 ||
+            gunIndex >= guns.Length)
+            return false;
 
         Gun targetGun = guns[gunIndex];
-        if (targetGun == null) return false;
 
-        if (targetGun.reserveAmmo >= targetGun.maxReserveAmmo)
-        {
+        if (targetGun == null)
             return false;
-        }
 
-        targetGun.reserveAmmo = targetGun.maxReserveAmmo;
+        if (targetGun.reserveAmmo >=
+            targetGun.maxReserveAmmo)
+            return false;
+
+        targetGun.reserveAmmo =
+            targetGun.maxReserveAmmo;
+
         UpdateAmmoUI();
+
         return true;
     }
 
@@ -230,7 +314,9 @@ public class FPSController : MonoBehaviour
         if (ammoText != null)
         {
             Gun gun = guns[currentGunIndex];
-            ammoText.text = $"[{gun.gunName}]\n{gun.currentClip} / {gun.reserveAmmo}";
+
+            ammoText.text =
+                $"[{gun.gunName}]\n{gun.currentClip} / {gun.reserveAmmo}";
         }
     }
 }
