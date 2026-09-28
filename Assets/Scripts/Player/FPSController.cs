@@ -21,8 +21,14 @@ public class Gun
 public class FPSController : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed = 7f;
+    public float walkSpeed = 4.5f;         
+    public float runSpeed = 8.5f;           
     public float gravity = -9.81f;
+
+    [Header("Mouse Look Settings (FPS)")]
+    public Transform playerCamera;         
+    public float mouseSensitivity = 1.5f;   
+    public float maxLookAngle = 80f;
 
     [Header("Animation")]
     public Animator animator;
@@ -38,26 +44,24 @@ public class FPSController : MonoBehaviour
 
     private CharacterController controller;
     private Vector3 velocity;
-    public Camera mainCam;
+    private float verticalRotation = 0f;
+    private bool isCursorLocked = true;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
 
-        // หา Animator ถ้ายังไม่ได้ลากใส่ Inspector
         if (animator == null)
         {
             animator = GetComponent<Animator>();
         }
 
-        // ดึงกล้องหลัก
-        if (mainCam == null)
+        if (playerCamera == null && Camera.main != null)
         {
-            mainCam = Camera.main;
+            playerCamera = Camera.main.transform;
         }
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        LockCursor(true);
 
         SetupDefaultGuns();
         UpdateWeaponVisibility();
@@ -66,20 +70,58 @@ public class FPSController : MonoBehaviour
 
     void SetupDefaultGuns()
     {
-        if (guns[0] != null && guns[0].fireRate <= 0.01f)
-            guns[0].fireRate = 0.15f;
+        if (guns != null)
+        {
+            if (guns.Length > 0 && guns[0] != null && guns[0].fireRate <= 0.01f)
+                guns[0].fireRate = 0.15f;
 
-        if (guns[1] != null && guns[1].fireRate <= 0.01f)
-            guns[1].fireRate = 0.3f;
+            if (guns.Length > 1 && guns[1] != null && guns[1].fireRate <= 0.01f)
+                guns[1].fireRate = 0.3f;
+        }
     }
 
     void Update()
     {
+        HandleCursorLock();
+
+        if (isCursorLocked)
+        {
+            HandleMouseLook();
+            HandleWeaponSwitch();
+            HandleShootingInput();
+            HandleReloadInput();
+        }
+
         HandleMovement();
-        HandleRotationTowardsMouse();
-        HandleWeaponSwitch();
-        HandleShootingInput();
-        HandleReloadInput();
+    }
+
+    void HandleCursorLock()
+    {
+        if (Input.GetMouseButtonDown(0) && !isCursorLocked) LockCursor(true);
+        if (Input.GetKeyDown(KeyCode.Escape)) LockCursor(false);
+    }
+
+    void LockCursor(bool lockState)
+    {
+        isCursorLocked = lockState;
+        Cursor.lockState = lockState ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !lockState;
+    }
+
+    void HandleMouseLook()
+    {
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+        transform.Rotate(Vector3.up * mouseX);
+
+        verticalRotation -= mouseY;
+        verticalRotation = Mathf.Clamp(verticalRotation, -maxLookAngle, maxLookAngle);
+
+        if (playerCamera != null)
+        {
+            playerCamera.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+        }
     }
 
     void HandleMovement()
@@ -90,58 +132,22 @@ public class FPSController : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveZ = Input.GetAxisRaw("Vertical");
 
-        Vector3 move = new Vector3(moveX, 0f, moveZ).normalized;
+        bool isMoving = (Mathf.Abs(moveX) > 0.01f || Mathf.Abs(moveZ) > 0.01f);
+        bool isRunning = isMoving && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && moveZ > 0.1f;
 
-        // เดิน
-        controller.Move(move * moveSpeed * Time.deltaTime);
+        float currentSpeed = isRunning ? runSpeed : walkSpeed;
 
-        // =========================
-        // Animation
-        // =========================
-
-        bool isMoving = move.magnitude > 0.01f;
-        bool isRunning = isMoving && Input.GetKey(KeyCode.LeftShift);
-
+        Vector3 move = (transform.right * moveX + transform.forward * moveZ).normalized;
+        controller.Move(move * currentSpeed * Time.deltaTime);
         if (animator != null)
         {
             animator.SetBool("IsMoving", isMoving);
             animator.SetBool("IsRunning", isRunning);
+            animator.SetFloat("Forward", moveZ); 
         }
-
-        // =========================
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-    }
-
-    void HandleRotationTowardsMouse()
-    {
-        if (mainCam == null)
-            mainCam = Camera.main;
-
-        if (mainCam == null)
-            return;
-
-        Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
-
-        Plane groundPlane = new Plane(
-            Vector3.up,
-            new Vector3(0f, transform.position.y, 0f)
-        );
-
-        if (groundPlane.Raycast(ray, out float enter))
-        {
-            Vector3 hitPoint = ray.GetPoint(enter);
-
-            Vector3 lookDirection = hitPoint - transform.position;
-            lookDirection.y = 0f;
-
-            if (lookDirection.sqrMagnitude > 0.05f)
-            {
-                transform.rotation =
-                    Quaternion.LookRotation(lookDirection);
-            }
-        }
     }
 
     void HandleWeaponSwitch()
@@ -158,13 +164,11 @@ public class FPSController : MonoBehaviour
 
         if (scroll > 0f)
         {
-            currentGunIndex =
-                (currentGunIndex + 1) % guns.Length;
+            currentGunIndex = (currentGunIndex + 1) % guns.Length;
         }
         else if (scroll < 0f)
         {
-            currentGunIndex =
-                (currentGunIndex - 1 + guns.Length) % guns.Length;
+            currentGunIndex = (currentGunIndex - 1 + guns.Length) % guns.Length;
         }
 
         if (previousGun != currentGunIndex)
@@ -181,9 +185,7 @@ public class FPSController : MonoBehaviour
         {
             if (guns[i].gunObject != null)
             {
-                guns[i].gunObject.SetActive(
-                    i == currentGunIndex
-                );
+                guns[i].gunObject.SetActive(i == currentGunIndex);
             }
         }
     }
@@ -195,8 +197,7 @@ public class FPSController : MonoBehaviour
 
         Gun currentGun = guns[currentGunIndex];
 
-        bool shootTriggered =
-            currentGun.isAutomatic
+        bool shootTriggered = currentGun.isAutomatic
             ? Input.GetButton("Fire1")
             : Input.GetButtonDown("Fire1");
 
@@ -204,13 +205,8 @@ public class FPSController : MonoBehaviour
         {
             if (currentGun.currentClip > 0)
             {
-                float rate =
-                    (currentGun.fireRate <= 0.01f)
-                    ? 0.15f
-                    : currentGun.fireRate;
-
+                float rate = (currentGun.fireRate <= 0.01f) ? 0.15f : currentGun.fireRate;
                 nextTimeToFire = Time.time + rate;
-
                 Shoot(currentGun);
             }
             else
@@ -223,13 +219,26 @@ public class FPSController : MonoBehaviour
     void Shoot(Gun gun)
     {
         gun.currentClip--;
-
         UpdateAmmoUI();
 
-        if (gun.bulletPrefab != null &&
-            gun.firePoint != null)
+        if (animator != null)
         {
-            Vector3 shootDirection = transform.forward;
+            animator.SetTrigger("Shoot");
+        }
+
+        if (gun.bulletPrefab != null && gun.firePoint != null)
+        {
+            Vector3 shootDirection;
+            if (playerCamera != null)
+            {
+                Ray ray = new Ray(playerCamera.position, playerCamera.forward);
+                Vector3 targetPoint = Physics.Raycast(ray, out RaycastHit hit, 100f) ? hit.point : ray.GetPoint(100f);
+                shootDirection = (targetPoint - gun.firePoint.position).normalized;
+            }
+            else
+            {
+                shootDirection = transform.forward;
+            }
 
             GameObject bullet = Instantiate(
                 gun.bulletPrefab,
@@ -238,11 +247,9 @@ public class FPSController : MonoBehaviour
             );
 
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
-
             if (rb != null)
             {
-                rb.linearVelocity =
-                    shootDirection * gun.bulletForce;
+                rb.linearVelocity = shootDirection * gun.bulletForce;
             }
         }
     }
@@ -259,12 +266,10 @@ public class FPSController : MonoBehaviour
     {
         Gun gun = guns[currentGunIndex];
 
-        if (gun.currentClip == gun.maxClip ||
-            gun.reserveAmmo <= 0)
+        if (gun.currentClip == gun.maxClip || gun.reserveAmmo <= 0)
             return;
 
         isReloading = true;
-
         Invoke(nameof(FinishReload), 1.2f);
     }
 
@@ -272,40 +277,30 @@ public class FPSController : MonoBehaviour
     {
         Gun gun = guns[currentGunIndex];
 
-        int neededAmmo =
-            gun.maxClip - gun.currentClip;
-
-        int ammoToLoad =
-            Mathf.Min(neededAmmo, gun.reserveAmmo);
+        int neededAmmo = gun.maxClip - gun.currentClip;
+        int ammoToLoad = Mathf.Min(neededAmmo, gun.reserveAmmo);
 
         gun.currentClip += ammoToLoad;
         gun.reserveAmmo -= ammoToLoad;
 
         isReloading = false;
-
         UpdateAmmoUI();
     }
 
     public bool RefillReserveAmmo(int gunIndex)
     {
-        if (gunIndex < 0 ||
-            gunIndex >= guns.Length)
+        if (gunIndex < 0 || gunIndex >= guns.Length)
             return false;
 
         Gun targetGun = guns[gunIndex];
-
         if (targetGun == null)
             return false;
 
-        if (targetGun.reserveAmmo >=
-            targetGun.maxReserveAmmo)
+        if (targetGun.reserveAmmo >= targetGun.maxReserveAmmo)
             return false;
 
-        targetGun.reserveAmmo =
-            targetGun.maxReserveAmmo;
-
+        targetGun.reserveAmmo = targetGun.maxReserveAmmo;
         UpdateAmmoUI();
-
         return true;
     }
 
@@ -314,9 +309,7 @@ public class FPSController : MonoBehaviour
         if (ammoText != null)
         {
             Gun gun = guns[currentGunIndex];
-
-            ammoText.text =
-                $"[{gun.gunName}]\n{gun.currentClip} / {gun.reserveAmmo}";
+            ammoText.text = $"[{gun.gunName}]\n{gun.currentClip} / {gun.reserveAmmo}";
         }
     }
 }

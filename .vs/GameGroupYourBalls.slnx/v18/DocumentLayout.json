@@ -1,45 +1,53 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\",
+  "WorkspaceRootPath": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\AttachGunToHand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\AttachGunToHand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\1670703881\\gi262\\gamegroupyourballs\\assets\\scripts\\player\\playerhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playerhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\g3\\documents\\github\\gamegroupyourballs\\assets\\scripts\\player\\fpscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\fpscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\1670703881\\gi262\\gamegroupyourballs\\assets\\scripts\\enemyai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemyai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\g3\\documents\\github\\gamegroupyourballs\\assets\\scripts\\bouncingbullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\1670703881\\gi262\\gamegroupyourballs\\assets\\scripts\\bouncingbullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\bouncingbullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\Player\\FPSController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\Player\\FPSController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\1670703881\\gi262\\gamegroupyourballs\\assets\\scripts\\attachguntohand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\attachguntohand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\new\\GameGroupYourBalls\\Assets\\Scripts\\PlayButton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\g3\\documents\\github\\gamegroupyourballs\\assets\\scripts\\settings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\1670703881\\gi262\\gamegroupyourballs\\assets\\scripts\\settings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\settings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\g3\\documents\\github\\gamegroupyourballs\\assets\\scripts\\wormanime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\1670703881\\gi262\\gamegroupyourballs\\assets\\scripts\\wormanime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\wormanime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\g3\\documents\\github\\gamegroupyourballs\\assets\\scripts\\topdowncamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\1670703881\\gi262\\gamegroupyourballs\\assets\\scripts\\topdowncamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\topdowncamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\g3\\documents\\github\\gamegroupyourballs\\assets\\scripts\\ammopickup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\1670703881\\gi262\\gamegroupyourballs\\assets\\scripts\\ammopickup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ammopickup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\g3\\documents\\github\\gamegroupyourballs\\assets\\scripts\\enemyai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemyai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\1670703881\\gi262\\gamegroupyourballs\\assets\\scripts\\enemyhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemyhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\g3\\documents\\github\\gamegroupyourballs\\assets\\scripts\\enemyhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemyhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:2:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\Player\\FPSController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:2:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Scripts\\Player\\FPSController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -49,15 +57,28 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
+              "Title": "PlayerHealth.cs",
+              "DocumentMoniker": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\Player\\PlayerHealth.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerHealth.cs",
+              "ToolTip": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\Player\\PlayerHealth.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerHealth.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAcwDIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-28T13:47:04.834Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "Settings.cs",
-              "DocumentMoniker": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\Settings.cs",
+              "DocumentMoniker": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\Settings.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Settings.cs",
-              "ToolTip": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\Settings.cs",
+              "ToolTip": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\Settings.cs",
               "RelativeToolTip": "Assets\\Scripts\\Settings.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAADwvy4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -65,11 +86,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "wormanime.cs",
-              "DocumentMoniker": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\wormanime.cs",
+              "DocumentMoniker": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\wormanime.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\wormanime.cs",
-              "ToolTip": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\wormanime.cs",
+              "ToolTip": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\wormanime.cs",
               "RelativeToolTip": "Assets\\Scripts\\wormanime.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -77,11 +98,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "TopDownCamera.cs",
-              "DocumentMoniker": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\TopDownCamera.cs",
+              "DocumentMoniker": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\TopDownCamera.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\TopDownCamera.cs",
-              "ToolTip": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\TopDownCamera.cs",
+              "ToolTip": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\TopDownCamera.cs",
               "RelativeToolTip": "Assets\\Scripts\\TopDownCamera.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -89,11 +110,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "AmmoPickup.cs",
-              "DocumentMoniker": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\AmmoPickup.cs",
+              "DocumentMoniker": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\AmmoPickup.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\AmmoPickup.cs",
-              "ToolTip": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\AmmoPickup.cs",
+              "ToolTip": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\AmmoPickup.cs",
               "RelativeToolTip": "Assets\\Scripts\\AmmoPickup.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -101,23 +122,24 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 1,
               "Title": "EnemyAI.cs",
-              "DocumentMoniker": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\EnemyAI.cs",
+              "DocumentMoniker": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\EnemyAI.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\EnemyAI.cs",
-              "ToolTip": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\EnemyAI.cs",
+              "ToolTip": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\EnemyAI.cs",
               "RelativeToolTip": "Assets\\Scripts\\EnemyAI.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAG0AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAOgAAADAj4XoENgYwCYBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-22T16:58:05.403Z"
+              "WhenOpened": "2026-09-22T16:58:05.403Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "EnemyHealth.cs",
-              "DocumentMoniker": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\EnemyHealth.cs",
+              "DocumentMoniker": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\EnemyHealth.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\EnemyHealth.cs",
-              "ToolTip": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\EnemyHealth.cs",
+              "ToolTip": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\EnemyHealth.cs",
               "RelativeToolTip": "Assets\\Scripts\\EnemyHealth.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -127,48 +149,63 @@
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "BouncingBullet.cs",
-              "DocumentMoniker": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\BouncingBullet.cs",
+              "DocumentMoniker": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\BouncingBullet.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\BouncingBullet.cs",
-              "ToolTip": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\BouncingBullet.cs",
+              "ToolTip": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\BouncingBullet.cs",
               "RelativeToolTip": "Assets\\Scripts\\BouncingBullet.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAxwBkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-22T16:50:15.736Z"
+              "WhenOpened": "2026-09-22T16:50:15.736Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "PlayButton.cs",
               "DocumentMoniker": "D:\\new\\GameGroupYourBalls\\Assets\\Scripts\\PlayButton.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\new\\GameGroupYourBalls\\Assets\\Scripts\\PlayButton.cs",
               "ToolTip": "D:\\new\\GameGroupYourBalls\\Assets\\Scripts\\PlayButton.cs",
+              "RelativeToolTip": "..\\..\\..\\new\\GameGroupYourBalls\\Assets\\Scripts\\PlayButton.cs",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-09-27T16:22:51.723Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FPSController.cs",
-              "DocumentMoniker": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\Player\\FPSController.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\FPSController.cs",
-              "ToolTip": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\Player\\FPSController.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Player\\FPSController.cs",
-              "ViewState": "AgIAABEBAAAAAAAAAAAuwEEBAAABAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "AttachGunToHand.cs",
+              "DocumentMoniker": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\AttachGunToHand.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\AttachGunToHand.cs",
+              "ToolTip": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\AttachGunToHand.cs",
+              "RelativeToolTip": "Assets\\Scripts\\AttachGunToHand.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAiwCIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-28T07:57:21.136Z",
+              "WhenOpened": "2026-09-28T09:39:27.938Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AttachGunToHand.cs",
-              "DocumentMoniker": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\AttachGunToHand.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\AttachGunToHand.cs",
-              "ToolTip": "C:\\Users\\G3\\Documents\\GitHub\\GameGroupYourBalls\\Assets\\Scripts\\AttachGunToHand.cs",
-              "RelativeToolTip": "Assets\\Scripts\\AttachGunToHand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAABAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "FPSController.cs",
+              "DocumentMoniker": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\Player\\FPSController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\FPSController.cs",
+              "ToolTip": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\Player\\FPSController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player\\FPSController.cs",
+              "ViewState": "AgIAABAAAAAA/mZiuuQ6wBcAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-28T09:39:27.938Z",
+              "WhenOpened": "2026-09-28T10:54:00.477Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "FPSController.cs",
+              "DocumentMoniker": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\Player\\FPSController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\FPSController.cs",
+              "ToolTip": "D:\\1670703881\\Gi262\\GameGroupYourBalls\\Assets\\Scripts\\Player\\FPSController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player\\FPSController.cs",
+              "ViewState": "AgIAABEBAAAAAAAAAAAuwEEBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-28T07:57:21.136Z"
             }
           ]
         }

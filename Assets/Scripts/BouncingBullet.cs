@@ -16,10 +16,23 @@ public class BouncingBullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        EnemyHealth enemy = collision.gameObject.GetComponentInParent<EnemyHealth>();
-        if (enemy != null)
+        EnemyAI enemyAI = collision.gameObject.GetComponentInParent<EnemyAI>();
+        if (enemyAI == null)
         {
-            enemy.TakeDamage(damage);
+            enemyAI = collision.gameObject.GetComponent<EnemyAI>();
+        }
+
+        if (enemyAI != null)
+        {
+            enemyAI.TakeDamage(Mathf.RoundToInt(damage));
+            Destroy(gameObject);
+            return;
+        }
+
+        EnemyHealth enemyHealth = collision.gameObject.GetComponentInParent<EnemyHealth>();
+        if (enemyHealth != null)
+        {
+            enemyHealth.TakeDamage(damage);
             Destroy(gameObject);
             return;
         }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAI : MonoBehaviour
@@ -7,104 +8,288 @@ public class EnemyAI : MonoBehaviour
     private NavMeshAgent agent;
     private Transform player;
 
-    [Header("Detection Settings")]
-    public float sightRange = 12f;
-    public float fieldOfView = 90f;
-    public LayerMask obstacleMask;
+    [Header("Stats & Health")]
+    public int maxHealth = 100;
+    private int currentHealth;
+    public bool isDead = false;
 
-    [Header("Patrol Settings")]
-    public float walkRadius = 8f;
-    public float patrolWaitTime = 2f;
-    private float waitTimer = 0f;
+    [Header("Movement & Chase Settings")]
+    public float chaseSpeed = 3.8f;
+    public float rageSpeed = 5.5f;
+    public float stoppingDistance = 3.2f;       // รักษาระยะห่างตอนยืน ไม่ให้เดินเบียดเข้าหน้า
+    public float updatePathInterval = 0.2f;
+    private float nextPathUpdateTime = 0f;
 
-    [Header("Movement Speeds")]
-    public float patrolSpeed = 2f;
-    public float chaseSpeed = 4.5f;
+    [Header("Combat Settings")]
+    public float attackRange = 4.2f;            // ระยะง้างโจมตี (ระยะไกลสมส่วนกับแขนยาว)
+    public float attackDuration = 1.6f;         // ระยะเวลาเล่นท่า Attack จนจบ (ล็อกให้อยู่กับที่)
+    public float attackCooldown = 2.0f;
+    private float nextAttackTime = 0f;
 
-    private bool playerInSight = false;
+    [Header("Hit & Rage Durations")]
+    public float hitDuration = 0.8f;            // ระยะเวลาสะดุ้ง GetHit จนจบ (หยุดเดินชะงัก)
+    public float rageDuration = 1.8f;           // ระยะเวลาคำราม Rage จนจบ
+    public float rageInterval = 14f;
+    private float nextRageTime = 7f;
 
-    void Start()
+    [Header("Action Locks")]
+    private bool isBusy = false;                // ป้องกันไม่ให้เดินหรือไถลขณะเล่นท่าใดๆ ค้างอยู่
+
+    [Header("Strafe Movement")]
+    public float strafeSwitchInterval = 3f;
+    private float nextStrafeTime = 0f;
+    private int currentMoveType = 0;            // 0 = Run, 1 = StrafeLeft, 2 = StrafeRight
+
+    [Header("Target & Animation")]
+    public string playerTag = "Player";
+    public Animator animator;
+
+    void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
 
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null)
+        if (animator == null)
         {
-            player = playerObj.transform;
+            animator = GetComponentInChildren<Animator>();
         }
+    }
 
-        agent.speed = patrolSpeed;
-        SetRandomDestination();
+    void Start()
+    {
+        currentHealth = maxHealth;
+        agent.speed = chaseSpeed;
+        agent.stoppingDistance = stoppingDistance;
+
+        FindPlayer();
     }
 
     void Update()
     {
-        if (player == null) return;
+        // ถ้าตาย หรือกำลังเล่นท่า (ตี, โดนยิง, คำราม) ให้หยุดอัปเดตการเดินทุกอย่าง
+        if (isDead || isBusy) return;
 
-        CheckForPlayer();
-
-        if (playerInSight)
+        if (player == null)
         {
-            ChasePlayer();
+            FindPlayer();
+            return;
+        }
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        // เมื่อเข้าใกล้ระยะตี และพร้อมโจมตี
+        if (distanceToPlayer <= attackRange && Time.time >= nextAttackTime)
+        {
+            StartCoroutine(PerformAttackRoutine());
         }
         else
         {
-            Patrol();
+            HandleChaseMovement();
+            HandleRageBehavior();
+            HandleStrafeBehavior();
+        }
+
+        UpdateAnimation();
+    }
+
+    void FindPlayer()
+    {
+        GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+
+            if (agent != null && agent.isOnNavMesh)
+            {
+                agent.SetDestination(player.position);
+            }
         }
     }
 
-    void CheckForPlayer()
+    void HandleChaseMovement()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        if (distanceToPlayer <= sightRange)
+        if (Time.time >= nextPathUpdateTime)
         {
-            Vector3 directionToPlayer = (player.position - transform.position).normalized;
-            float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+            nextPathUpdateTime = Time.time + updatePathInterval;
 
-            if (angleToPlayer < fieldOfView / 2f)
+            if (agent.isOnNavMesh)
             {
-                if (!Physics.Raycast(transform.position + Vector3.up * 0.5f, directionToPlayer, distanceToPlayer, obstacleMask))
+                agent.isStopped = false;
+                agent.SetDestination(player.position);
+            }
+        }
+    }
+
+    // Coroutine สั่งล็อกตัวให้อยู่กับที่ตอนง้างตีจนเสร็จ
+    IEnumerator PerformAttackRoutine()
+    {
+        isBusy = true;
+        nextAttackTime = Time.time + attackCooldown;
+
+        // สั่งหยุดเดิน นิ่งอยู่กับที่ทันที ไม่ให้ไถลตาม
+        if (agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+        }
+
+        // หันหน้ามองผู้เล่นก่อนเริ่มฟาด
+        Vector3 lookDir = (player.position - transform.position).normalized;
+        lookDir.y = 0;
+        if (lookDir != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(lookDir);
+        }
+
+        if (animator != null)
+        {
+            animator.SetBool("IsMoving", false);
+            animator.SetTrigger("Attack");
+        }
+
+        // รอจนกว่าท่าโจมตีจะเล่นจบ
+        yield return new WaitForSeconds(attackDuration);
+
+        if (agent.isOnNavMesh && !isDead)
+        {
+            agent.isStopped = false;
+        }
+
+        isBusy = false;
+    }
+
+    // Coroutine สั่งให้คำราม Rage จนจบ
+    IEnumerator PerformRageRoutine()
+    {
+        isBusy = true;
+
+        if (agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+        }
+
+        if (animator != null)
+        {
+            animator.SetBool("IsMoving", false);
+            animator.SetTrigger("Rage");
+        }
+
+        yield return new WaitForSeconds(rageDuration);
+
+        agent.speed = rageSpeed;
+        if (agent.isOnNavMesh && !isDead)
+        {
+            agent.isStopped = false;
+        }
+
+        isBusy = false;
+    }
+
+    // Coroutine สั่งชะงักหยุดเดินตอนโดนกระสุนยิง (GetHit)
+    IEnumerator PerformGetHitRoutine()
+    {
+        isBusy = true;
+
+        // หยุดชะงักทันทีที่โดนยิง
+        if (agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+        }
+
+        if (animator != null)
+        {
+            animator.SetBool("IsMoving", false);
+            animator.SetTrigger("GetHit");
+        }
+
+        // รอจนกว่าจะสะดุ้งจบ
+        yield return new WaitForSeconds(hitDuration);
+
+        if (agent.isOnNavMesh && !isDead)
+        {
+            agent.isStopped = false;
+        }
+
+        isBusy = false;
+    }
+
+    void HandleRageBehavior()
+    {
+        if (Time.time >= nextRageTime)
+        {
+            nextRageTime = Time.time + rageInterval;
+            StartCoroutine(PerformRageRoutine());
+        }
+    }
+
+    void HandleStrafeBehavior()
+    {
+        if (Time.time >= nextStrafeTime)
+        {
+            nextStrafeTime = Time.time + strafeSwitchInterval;
+
+            float roll = Random.value;
+            if (roll < 0.7f) currentMoveType = 0;
+            else if (roll < 0.85f) currentMoveType = 1;
+            else currentMoveType = 2;
+
+            if (animator != null)
+            {
+                animator.SetInteger("MoveType", currentMoveType);
+                if (currentMoveType == 0)
                 {
-                    playerInSight = true;
-                    return;
+                    animator.SetInteger("RunIndex", Random.Range(0, 3));
                 }
             }
         }
-
-        playerInSight = false;
     }
 
-    void ChasePlayer()
+    void UpdateAnimation()
     {
-        agent.speed = chaseSpeed;
-        agent.SetDestination(player.position);
+        if (animator == null) return;
+
+        bool isMoving = !agent.isStopped && agent.velocity.magnitude > 0.2f;
+        animator.SetBool("IsMoving", isMoving);
     }
 
-    void Patrol()
+    public void TakeDamage(int damage)
     {
-        agent.speed = patrolSpeed;
+        if (isDead) return;
 
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        currentHealth -= damage;
+
+        if (currentHealth <= 0)
         {
-            waitTimer += Time.deltaTime;
-            if (waitTimer >= patrolWaitTime)
-            {
-                SetRandomDestination();
-                waitTimer = 0f;
-            }
+            Die();
+        }
+        else
+        {
+            // หยุดการกระทำเดิม แล้วเล่นท่าสะดุ้งทันที
+            StopAllCoroutines();
+            StartCoroutine(PerformGetHitRoutine());
         }
     }
 
-    void SetRandomDestination()
+    void Die()
     {
-        Vector3 randomDirection = Random.insideUnitSphere * walkRadius;
-        randomDirection += transform.position;
+        isDead = true;
+        StopAllCoroutines();
 
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomDirection, out hit, walkRadius, NavMesh.AllAreas))
+        if (agent.isOnNavMesh)
         {
-            agent.SetDestination(hit.position);
+            agent.isStopped = true;
         }
+        agent.enabled = false;
+
+        Collider col = GetComponent<Collider>();
+        if (col != null) col.enabled = false;
+
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");
+        }
+
+        Destroy(gameObject, 4f);
     }
 }
